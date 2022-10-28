@@ -10,7 +10,7 @@ const RESULT_COMPUTER_WINS = 'COMPUTER_WINS';
 
 let isGameRunning = false;
 
-const getPlayerChoice = function getPlayerChoice() {
+const getPlayerChoice = () => {
   const selection = prompt(
     `${ROCK}, ${PAPER} or ${SCISSORS}`,
     ''
@@ -36,21 +36,29 @@ const getComputerChoice = function () {
 };
 
 const getWinner = (cChoice, pChoice) => {
-  if (cChoice === pChoice) {
-    return RESULT_DRAW;
-  } else if (
-    (cChoice === ROCK && pChoice === PAPER) ||
-    (cChoice === PAPER && pChoice === SCISSORS) ||
-    (cChoice === SCISSORS && pChoice === ROCK)
-  ) {
-    return RESULT_PLAYER_WINS;
-  } else {
-    RESULT_COMPUTER_WINS;
-  }
+  return cChoice === pChoice
+    ? RESULT_DRAW
+    : (cChoice === ROCK && pChoice === PAPER) ||
+      (cChoice === PAPER && pChoice === SCISSORS) ||
+      (cChoice === SCISSORS && pChoice === ROCK)
+    ? RESULT_PLAYER_WINS
+    : RESULT_COMPUTER_WINS;
+
+  //   if (cChoice === pChoice) {
+  //     return RESULT_DRAW;
+  //   } else if (
+  //     (cChoice === ROCK && pChoice === PAPER) ||
+  //     (cChoice === PAPER && pChoice === SCISSORS) ||
+  //     (cChoice === SCISSORS && pChoice === ROCK)
+  //   ) {
+  //     return RESULT_PLAYER_WINS;
+  //   } else {
+  //     RESULT_COMPUTER_WINS;
+  //   }
 };
 
 // startGame();
-startGameBtn.addEventListener('click', function startGame() {
+startGameBtn.addEventListener('click', () => {
   if (isGameRunning) {
     return;
   }
@@ -59,7 +67,16 @@ startGameBtn.addEventListener('click', function startGame() {
   const playerChoice = getPlayerChoice();
   const computerChoice = getComputerChoice();
   const winner = getWinner(computerChoice, playerChoice);
-  console.log(winner);
+  let message = `You picked ${playerChoice}, computer picked ${computerChoice}, therefore you `;
+  if (winner === RESULT_DRAW) {
+    message = message + 'had a draw';
+  } else if (winner === RESULT_PLAYER_WINS) {
+    message = message + ' won';
+  } else {
+    message += 'lost';
+  }
+  alert(winner);
+  isGameRunning = false;
 });
 
 // anonymous function, is the type of function that
@@ -87,3 +104,9 @@ const anonymousFunction = function () {
 
 // It's always good to name anonymous functions for
 // debug purposes.
+
+// Arrow function. can have an argument/parameters.
+// paranthesis can be omitted.
+// Curly braces can be ommitted, result is returned
+// without the return statement. (This works for just a single expression)
+// Curly braces must be used for multiple expressions.
