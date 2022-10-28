@@ -18,7 +18,7 @@ const getPlayerChoice = () => {
 
   if (selection !== ROCK && selection !== PAPER && selection !== SCISSORS) {
     alert(`Invalid choice! we chose ${DEFAULT_USER_CHOICE} for you!`);
-    return DEFAULT_USER_CHOICE;
+    return;
   }
   return selection;
 };
@@ -35,7 +35,10 @@ const getComputerChoice = function () {
   }
 };
 
-const getWinner = (cChoice, pChoice) => {
+// The function below has a default value assigned to it for
+// when a valuse is not passed to it's parameters.
+// Default values must be the last parameter passed in multiple params
+const getWinner = (cChoice, pChoice = DEFAULT_USER_CHOICE) => {
   return cChoice === pChoice
     ? RESULT_DRAW
     : (cChoice === ROCK && pChoice === PAPER) ||
@@ -66,16 +69,23 @@ startGameBtn.addEventListener('click', () => {
   console.log('Game is starting...');
   const playerChoice = getPlayerChoice();
   const computerChoice = getComputerChoice();
-  const winner = getWinner(computerChoice, playerChoice);
-  let message = `You picked ${playerChoice}, computer picked ${computerChoice}, therefore you `;
+  let winner;
+  if (playerChoice) {
+    winner = getWinner(computerChoice, playerChoice);
+  } else {
+    winner = getWinner(computerChoice, playerChoice);
+  }
+  let message = `You picked ${
+    playerChoice ? playerChoice : DEFAULT_USER_CHOICE
+  }, computer picked ${computerChoice}, therefore you `;
   if (winner === RESULT_DRAW) {
     message = message + 'had a draw';
   } else if (winner === RESULT_PLAYER_WINS) {
-    message = message + ' won';
+    message = message + 'won';
   } else {
     message += 'lost';
   }
-  alert(winner);
+  alert(message);
   isGameRunning = false;
 });
 
@@ -110,3 +120,29 @@ const anonymousFunction = function () {
 // Curly braces can be ommitted, result is returned
 // without the return statement. (This works for just a single expression)
 // Curly braces must be used for multiple expressions.
+
+// Rest Operator... This is how can
+// pass multiple values without specifiying their param.
+const sumUp = (a, ...nums) => {
+  let sum = 0;
+
+  for (const num of nums) {
+    sum += num;
+  }
+  return sum;
+};
+
+console.log(sumUp(4, 6, 3, 8, 9, 4));
+
+// The argument keyword here still works
+// like the rest operator above
+const sub = function () {
+  let sum = 0;
+
+  for (const num of arguments) {
+    sum -= num;
+  }
+  return sum;
+};
+
+console.log(sub(9, 7, 4, 3));
