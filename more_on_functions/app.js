@@ -123,16 +123,24 @@ const anonymousFunction = function () {
 
 // Rest Operator... This is how can
 // pass multiple values without specifiying their param.
-const sumUp = (a, ...nums) => {
+const sumUp = (resultHandler, ...nums) => {
+  const validateNum = (number) => {
+    return isNaN(number) ? 0 : number;
+  };
+
   let sum = 0;
 
   for (const num of nums) {
-    sum += num;
+    sum += validateNum(num);
   }
-  return sum;
+  resultHandler(sum);
 };
 
-console.log(sumUp(4, 6, 3, 8, 9, 4));
+const showResult = (result) => {
+  alert('Result after adding all numbers is: ' + result);
+};
+
+sumUp(showResult, 6, 'kk', 8, 9, 4);
 
 // The argument keyword here still works
 // like the rest operator above
