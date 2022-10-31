@@ -123,7 +123,7 @@ const anonymousFunction = function () {
 
 // Rest Operator... This is how can
 // pass multiple values without specifiying their param.
-const sumUp = (resultHandler, ...nums) => {
+const combine = (resultHandler, Operation, ...nums) => {
   const validateNum = (number) => {
     return isNaN(number) ? 0 : number;
   };
@@ -131,26 +131,54 @@ const sumUp = (resultHandler, ...nums) => {
   let sum = 0;
 
   for (const num of nums) {
-    sum += validateNum(num);
+    if (Operation === 'ADD') {
+      sum += validateNum(num);
+    } else {
+      sum -= validateNum(num);
+    }
   }
-  resultHandler(sum);
+  resultHandler(sum, 'The result after adding all numbers');
 };
 
-const showResult = (result) => {
-  alert('Result after adding all numbers is: ' + result);
+const showResult = (messageText, result) => {
+  alert(messageText + ' ' + result);
 };
 
-sumUp(showResult, 6, 'kk', 8, 9, 4);
+combine(
+  showResult.bind(this, 'The result after adding all numbers'),
+  'ADD',
+  6,
+  'kk',
+  8,
+  9,
+  4
+);
+combine(
+  showResult.bind(this, 'The result after adding all numbers'),
+  'ADD',
+  60,
+  'kk',
+  88,
+  9,
+  4
+);
 
 // The argument keyword here still works
 // like the rest operator above
-const sub = function () {
-  let sum = 0;
+// const sub = function (resultHandler, ...numbers) {
+//   let sum = 0;
 
-  for (const num of arguments) {
-    sum -= num;
-  }
-  return sum;
-};
+//   for (const num of numbers) {
+//     sum -= num;
+//   }
+//   resultHandler(sum);
+// };
 
-console.log(sub(9, 7, 4, 3));
+combine(
+  showResult.bind(this, 'The result after subtracting all numbers'),
+  'SUBTRACT',
+  1,
+  10,
+  15,
+  20
+);
