@@ -58,30 +58,46 @@
 // hobbies.splice(1, 1);
 // console.log(hobbies);
 
-const testResult = [1, 5.3, 1.5, 10.99, -5, 10];
-console.log(testResult.slice());
+// const testResult = [1, 5.3, 1.5, 10.99, -5, 10];
+// console.log(testResult.slice());
 
-const storedResult = testResult.slice(); // How to copy array safely, so when you make changes to one it doesn't affect the other.
-testResult.push(99.99);
-console.log(testResult);
-console.log(storedResult);
-const storedPartResult = testResult.slice(0, 2); // How to copy array safely, so when you make changes to one it doesn't affect the other.
-console.log(storedPartResult);
+// const storedResult = testResult.slice(); // How to copy array safely, so when you make changes to one it doesn't affect the other.
+// testResult.push(99.99);
+// console.log(testResult);
+// console.log(storedResult);
+// const storedPartResult = testResult.slice(0, 2); // How to copy array safely, so when you make changes to one it doesn't affect the other.
+// console.log(storedPartResult);
 
-const storedResults = testResult.concat([4, 5, 6, 26, 7, 42]);
+// const storedResults = testResult.concat([4, 5, 6, 26, 7, 42]);
+// console.log(storedResults.includes(5))
 
-console.log(storedResults.sort());
-console.log(storedResults.length);
+// console.log(storedResults.sort());
+// console.log(storedResults.length);
 
-const personalData = [{ name: 'Emma' }, { name: 'Goddy' }];
+// const personalData = [{ name: 'Emma' }, { name: 'Goddy' }];
 
-const emma = personalData.find((person, index, persons) => {
-  return person.name === 'Emma';
+// const emma = personalData.find((person, index, persons) => {
+//   return person.name === 'Emma';
+// });
+
+// console.log(emma);
+
+// const goddyIndex = personalData.findIndex((person, index, persons) => {
+//   return person.name === 'Goddy';
+// });
+// console.log(goddyIndex);
+
+const prices = [10.99, 5.99, 3.99, 6.59];
+const tax = 0.19;
+const taxAdjustedPrice = [];
+
+// for (const price of prices) {
+//   taxAdjustedPrice.push(price * (1 + tax));
+// }
+
+prices.forEach((price, index, prices) => {
+  const priceObject = { index: index, taxAdjustedPrice: price * (1 + tax) };
+  taxAdjustedPrice.push(priceObject);
 });
 
-console.log(emma);
-
-const goddyIndex = personalData.findIndex((person, index, persons) => {
-  return person.name === 'Goddy';
-});
-console.log(goddyIndex);
+console.log(taxAdjustedPrice);
