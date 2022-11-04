@@ -87,17 +87,49 @@
 // });
 // console.log(goddyIndex);
 
+// const prices = [10.99, 5.99, 3.99, 6.59];
+// const tax = 0.19;
+// const taxAdjustedPrice = [];
+
+// // for (const price of prices) {
+// //   taxAdjustedPrice.push(price * (1 + tax));
+// // }
+
+// prices.forEach((price, index, prices) => {
+//   const priceObject = { index: index, taxAdjustedPrice: price * (1 + tax) };
+//   taxAdjustedPrice.push(priceObject);
+// });
+
+// console.log(taxAdjustedPrice);
+
 const prices = [10.99, 5.99, 3.99, 6.59];
 const tax = 0.19;
-const taxAdjustedPrice = [];
+// const taxAdjustedPrice = [];
 
 // for (const price of prices) {
 //   taxAdjustedPrice.push(price * (1 + tax));
 // }
 
-prices.forEach((price, index, prices) => {
+const taxAdjustedPrice = prices.map((price, index, prices) => {
   const priceObject = { index: index, taxAdjustedPrice: price * (1 + tax) };
-  taxAdjustedPrice.push(priceObject);
+  //   taxAdjustedPrice.push(priceObject);
+  return priceObject;
 });
 
 console.log(taxAdjustedPrice);
+const sortedPrices = prices.sort((a, b) => {
+  if (a > b) {
+    return 1;
+  } else if (a === b) {
+    return 0;
+  } else {
+    return -1;
+  }
+});
+console.log(sortedPrices.reverse());
+
+const filteredArray = prices.filter((price, index, prices) => {
+  return price > 6;
+});
+
+console.log(filteredArray);
