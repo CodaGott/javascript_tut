@@ -133,3 +133,42 @@ const filteredArray = prices.filter((price, index, prices) => {
 });
 
 console.log(filteredArray);
+
+// let sum = 0;
+
+// prices.forEach((price) => {
+//   sum += price;
+// });
+
+const sum = prices.reduce((preValue, curValue) => {
+  return preValue + curValue;
+}, 0);
+console.log('sum => ', Math.floor(sum));
+
+const data = 'new york;10.99;2000';
+
+const transformedData = data.split(';');
+
+console.log(transformedData);
+
+const nameFragments = ['Max', 'Schwarz'];
+const name = nameFragments.join(' ');
+console.log(name);
+
+const copiedNameFragment = [...nameFragments];
+console.log(copiedNameFragment);
+
+const minimum = Math.min(...prices);
+
+console.log(minimum);
+
+const persons = [
+  { name: 'Dozie', age: 31 },
+  { name: 'Emma', age: 40 },
+];
+
+const copiedPerson = [
+  ...persons.map((person) => ({ name: person.name, age: person.age })),
+];
+
+persons.push({ name: 'Anna', age: 29 });
