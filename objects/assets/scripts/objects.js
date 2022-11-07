@@ -1,33 +1,69 @@
-let person = {
-  name: 'Dozie',
-  age: 32,
-  hobbies: ['Coding', 'Reading', 'Cooking'],
-  greet: () => {
-    console.log('Hi there!');
-  },
+const addMovieBtn = document.getElementById('add-movie-btn');
+const searchBtn = document.getElementById('search-btn');
+
+const movies = [];
+
+const renderMovies = (filter = '') => {
+  const movieList = document.getElementById('movie-list');
+
+  if (movies.length === 0) {
+    movieList.classList.remove('visible');
+    return;
+  } else {
+    movieList.classList.add('visible');
+  }
+  movieList.innerHTML = '';
+
+  const filteredMovies = !filter
+    ? movies
+    : movies.filter((movie) => movie.info.title.includes(filter));
+
+  filteredMovies.forEach((movie) => {
+    const movieEl = document.createElement('li');
+    // movieEl.textContent = movie.info.title + '-' + movie.info.title[extraName];
+    const { info, ...otherProps } = movie;
+    console.log(otherProps);
+    const { title: movieTitle } = info;
+    let text = movieTitle + ' - ';
+    for (const key in info) {
+      if (key !== 'title') {
+        text += `${key}: ${info[key]}`;
+      }
+    }
+    movieEl.textContent = text;
+    movieList.append(movieEl);
+  });
 };
 
-// person = {
-//   name: 'Dozie',
-//   age: 32,
-//   hobbies: ['Coding', 'Reading', 'Cooking'],
-//   greet: () => {
-//     console.log('Hi there!');
-//   },
-//   isAdmin: true,
-// };
+const addMovieHandler = () => {
+  const title = document.getElementById('title').value;
+  const extraName = document.getElementById('extra-name').value;
+  const extraValue = document.getElementById('extra-value').value;
 
-// This adds a new field to an already existing object.
-person.isAdmin = true;
-console.log(person);
+  if (
+    title.trim() === '' ||
+    extraName.trim() === '' ||
+    extraValue.trim() === ''
+  ) {
+    return;
+  }
 
-// This deletes a field from an object.
-// If we assign a field the null or undefined
-// values, the field properties are still there
-// just that a value isn't assigned to it. But with delete
-// keyword, we delete everything about the field/property.
-delete person.isAdmin;
+  const newMovie = {
+    info: {
+      title,
+      [extraName]: extraValue,
+    },
+    id: Math.random().toString(),
+  };
+  movies.push(newMovie);
+  renderMovies();
+  console.log(newMovie);
+};
 
-person.greet();
+const searchMovieHandler = () => {
+  const filterTerm = document.getElementById('filter-title').value;
+  renderMovies(filterTerm);
+};
 
-console.log(person);
+addMovieBtn.addEventListener('click', addMovieHandler);
+searchBtn.addEventListener('click', searchMovieHandler);
