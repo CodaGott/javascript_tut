@@ -16,9 +16,11 @@
 // ];
 
 class Component {
-  constructor(renderHookId) {
+  constructor(renderHookId, shouldRender = true) {
     this.hookId = renderHookId;
-    this.render();
+    if (shouldRender) {
+      this.render();
+    }
   }
 
   render() {}
@@ -51,39 +53,56 @@ class Product {
   }
 }
 class ProductList extends Component {
-  products = [
-    new Product(
-      'A pillow',
-      'https://www.maxpixel.net/Pillow-Decoration-Green-Soft-Deco-Snuggle-1241878',
-      19.99,
-      'A soft pillow'
-    ),
-    new Product(
-      'A carpet',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.maxpixel.net%2FPillow-Decoration-Green-Soft-Deco-Snuggle-1241878&psig=AOvVaw2vUThtBQ7GFXZRYlrJ5vM2&ust=1667991377348000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLCaspa2nvsCFQAAAAAdAAAAABAE',
-      149.99,
-      'A Turkish Carpet'
-    ),
-  ];
+  //#products = []; this is how you make a field private JS.
+  // you'll hava to add the '#' to call the field anywhere.
+  products = [];
 
   constructor(renderHookId) {
     super(renderHookId);
+    this.fetchProducts();
+  }
+
+  fetchProducts() {
+    this.products = [
+      new Product(
+        'A pillow',
+        'https://www.maxpixel.net/Pillow-Decoration-Green-Soft-Deco-Snuggle-1241878',
+        19.99,
+        'A soft pillow'
+      ),
+      new Product(
+        'A carpet',
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.maxpixel.net%2FPillow-Decoration-Green-Soft-Deco-Snuggle-1241878&psig=AOvVaw2vUThtBQ7GFXZRYlrJ5vM2&ust=1667991377348000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLCaspa2nvsCFQAAAAAdAAAAABAE',
+        149.99,
+        'A Turkish Carpet'
+      ),
+    ];
+    this.renderProducts();
+  }
+
+  renderProducts() {
+    for (const prod of this.products) {
+      new ProductItem(prod, 'prod-list');
+    }
   }
 
   render() {
     this.createRootElement('ul', 'product-list', [
       new ElementAttribute('id', 'prod-list'),
     ]);
+    if (this.products && this.products.length > 0) {
+      this.renderProducts();
+    }
     // const prodList = document.createElement('ul');
     // prodList.id = 'prod-list';
     // prodList.className = 'product-list';
-    for (const prod of this.products) {
-      ProductItem(prod, 'prod-list');
-      //   const productItem = new ProductItem(prod, 'prod-list');
-      //   productItem.render();
-      //   const prodEl = productItem.render();
-      //   prodList.append(prodEl);
-    }
+    // for (const prod of this.products) {
+    //   ProductItem(prod, 'prod-list');
+    //   const productItem = new ProductItem(prod, 'prod-list');
+    //   productItem.render();
+    //   const prodEl = productItem.render();
+    //   prodList.append(prodEl);
+    // }
     // return prodList;
   }
 }
@@ -120,6 +139,11 @@ class ShoppingCart extends Component {
     updatedItems.push(product);
     this.cartItems = updatedItems;
   }
+
+  orderProduct() {
+    console.log('Ordering...');
+    console.log(this.items);
+  }
   render() {
     // const cartEl = document.createElement('section');
     const cartEl = this.createRootElement('section', 'cart');
@@ -128,7 +152,9 @@ class ShoppingCart extends Component {
         <h2>Total: \$${0}</h2>
         <button>Order Now!</button>
         `;
-    cartEl.className = 'cart';
+    // cartEl.className = 'cart';
+    const orderButton = cartEl.querySelector('button');
+    orderButton.addEventListener('click', () => this.orderProduct());
     this.totalOutput = cartEl.querySelector('h2');
     // return cartEl;
   }
@@ -137,8 +163,9 @@ class ShoppingCart extends Component {
 class ProductItem extends Component {
   //   product = new Product();
   constructor(product, renderHookId) {
-    super(renderHookId);
+    super(renderHookId, false);
     this.product = product;
+    this.render();
   }
 
   addToCart() {
@@ -217,15 +244,18 @@ class ProductItem extends Component {
 //   //     renderHook.append(prodList);
 //   //   },
 // };
-class Shop extends Component {
+class Shop {
   constructor() {
-    super();
+    // Instead of extending the component class,
+    // we can use the constructor there like show below
+    this.render();
   }
   render() {
     // const renderHook = document.getElementById('app');
     this.cart = new ShoppingCart('app');
     // this.cart.render();
     new ProductList('app');
+
     // const productList = new ProductList('app');
     // productList.render();
     // const productListEL = productList.render();
