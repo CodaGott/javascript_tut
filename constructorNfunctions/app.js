@@ -1,11 +1,19 @@
 class Person {
   name;
   age;
-  hobbies = {};
+  hobbies = [];
 
   constructor() {}
 
-  static greet() {
+  setName(name) {
+    this.name = name;
+  }
+
+  getname() {
+    return this.name;
+  }
+
+  greet() {
     console.log(
       `Hi I am ${this.name} and I am ${this.age} old. My hobbies are ${this.hobbies}`
     );
@@ -13,11 +21,12 @@ class Person {
 }
 
 const dozie = new Person();
-dozie.name = 'Dozie';
+// dozie.name = 'Dozie';
 dozie.age = 31;
 dozie.hobbies = ['Coding ', 'Reading ', 'Watching a movie'];
-// dozie.greet();
-
+dozie.setName('Chidozie');
+dozie.name = dozie.getname();
+dozie.greet();
 
 function NewPerson() {
   this.name;
