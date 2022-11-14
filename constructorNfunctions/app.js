@@ -46,3 +46,16 @@ p.age = 31;
 p.name = 'Dozie';
 p.greet();
 console.log(p.__proto__);
+
+const course = {
+  title: 'Java Script',
+  rating: 5,
+};
+console.log(
+  Object.setPrototypeOf(course, {
+    printRating: function () {
+      console.log(`${this.rating}/5`);
+    },
+  })
+);
+course.printRating();
