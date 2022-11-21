@@ -5,33 +5,35 @@ const form = document.querySelector('#new-post form');
 const fetchBtn = document.querySelector('#available-posts button');
 const postList = document.querySelector('ul');
 
-const xhr = new XMLHttpRequest();
 function sendHttpRequest(method, url, data = null) {
-  const promise = new Promise((resolve, reject) => {
-    xhr.open(method, url);
-
-    xhr.onload = function () {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error('Something went wrong!'));
-      }
-    };
-
-    xhr.onerror = function () {
-      reject(new Error('Failed to send request!'));
-    };
-
-    xhr.send(JSON.stringify(data));
+  return fetch(url, {
+    method: method,
+    body: data,
+    // body: JSON.stringify(data),
+    // headers: {
+    //   'Content-Type': 'application/json',
+    // },
+  }).then((response) => {
+    if (response.status >= 200 && response.status < 300) {
+      return response.json();
+    } else {
+      return response.json().then((errData) => {
+        console.log(errData);
+        throw new Error('Something happened on the server');
+      });
+    }
   });
-  return promise;
 }
 
 async function fetchPosts() {
   try {
-    await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts');
+    const responseData = await sendHttpRequest(
+      'GET',
+      'https://jsonplaceholder.typicode.com/posts'
+    );
 
-    const listOfPosts = JSON.parse(xhr.response);
+    const listOfPosts = responseData;
+    // const listOfPosts = JSON.parse(xhr.response);
     for (const post of listOfPosts) {
       const postEl = document.importNode(postTemplate.content, true);
       postEl.querySelector('h2').textContent = post.title.toUpperCase();
@@ -57,7 +59,12 @@ async function createPost(title, content) {
     userId: userId,
   };
 
-  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
+  const fd = new FormData();
+  fd.append('title', title);
+  fd.append('title', content);
+  fd.append('title', userId);
+
+  sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', fd);
 }
 
 fetchBtn.addEventListener('click', fetchPosts);
